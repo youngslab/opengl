@@ -22,6 +22,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_BINARY_DIR}
 
 add_executable(opengl src/main.cpp)
 
+target_link_libraries(opengl glad glfw)
+
 set_target_properties(opengl PROPERTIES
               CXX_STANDARD 17)
 
