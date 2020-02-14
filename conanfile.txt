@@ -2,6 +2,8 @@
 fmt/6.0.0@bincrafters/stable
 IrrXML/1.2@conan/stable
 Assimp/4.1.0@jacmoe/stable
+glm/0.9.9.5@g-truc/stable
+soil2/1.11@bincrafters/stable
 
 
 [generators]
