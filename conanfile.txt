@@ -1,5 +1,8 @@
 [requires] 
 fmt/6.0.0@bincrafters/stable
+IrrXML/1.2@conan/stable
+Assimp/4.1.0@jacmoe/stable
 
-[generators] 
+
+[generators]
 cmake_find_package
