@@ -14,6 +14,8 @@ conan_cmake_run(CONANFILE conanfile.txt
     PROFILE ${CMAKE_CONNAN_PROFILE}
     BASIC_SETUP CMAKE_TARGETS
     BUILD missing)
+
+add_subdirectory(3rd_party)
  
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_BINARY_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
