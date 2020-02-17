@@ -11,8 +11,6 @@ public:
   auto unbind() const -> void;
 
 private:
-  shader vertex_;
-  shader fragment_;
   GLuint id_;
 };
 } // namespace gl

@@ -4,9 +4,9 @@
 
 namespace gl {
 
-class VertexAttribute {
+class vertex_attr {
 public:
-  VertexAttribute(GLenum type, GLuint count, GLboolean normalized);
+vertex_attr(GLenum type, GLuint count, GLboolean normalized);
 
   auto size() const -> GLsizei;
   auto type() const -> GLenum;

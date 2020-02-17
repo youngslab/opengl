@@ -13,10 +13,10 @@ namespace stdfs = std::filesystem;
 
 class shader : public resource {
 public:
-  shader(GLenum const &type, std::string const &src);
-  shader(GLenum const &type, stdfs::path const &file);
+  explicit shader(GLenum const &type, std::string const &src);
+  explicit shader(GLenum const &type, stdfs::path const &file);
 
-  auto attach(GLuint const &program) -> void;
+  auto attach(GLuint const &program) const -> void;
 
 private:
   // shader object

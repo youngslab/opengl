@@ -10,18 +10,22 @@
 
 namespace gl {
 
-class VertexArray : public resource {
+class vertex_array : public resource {
 public:
-  VertexArray(VertexBuffer const &vbo, std::vector<VertexAttribute> const &as);
-  auto bind() -> void;
-  auto unbind() -> void;
+  vertex_array(vertex_buffer const &vbo, std::vector<vertex_attr> const &as);
+  vertex_array(vertex_buffer const &vbo, std::vector<vertex_attr> const &as,
+	      index_buffer const &ibo);
+  auto draw() -> void;
 
 private:
-  VertexBuffer const vbo;
-  std::optional<index_buffer> const ebo;
+  vertex_buffer const vbo;
+  std::optional<index_buffer> const ibo;
   GLuint const vao;
+  GLuint const stride_;
 
-  auto data(VertexBuffer const &vbo, std::vector<VertexAttribute> const &attrs)
+  auto bind() -> void;
+  auto unbind() -> void;
+  auto data(vertex_buffer const &vbo, std::vector<vertex_attr> const &attrs)
       -> void;
 };
 } // namespace gl

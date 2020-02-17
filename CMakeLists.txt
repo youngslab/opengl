@@ -26,13 +26,14 @@ find_package(fmt REQUIRED)
 add_subdirectory(3rd_party)
 
 add_executable(opengl src/main.cpp 
-	./gl/shader.cpp
-	./gl/texture.cpp
+	gl/shader.cpp
+	gl/texture.cpp
 	gl/resource.cpp
 	gl/indexbuffer.cpp
 	gl/vertexattribute.cpp
 	gl/vertexbuffer.cpp
-	gl/vertexarray.cpp)
+	gl/vertexarray.cpp
+	gl/program.cpp)
 
 
 

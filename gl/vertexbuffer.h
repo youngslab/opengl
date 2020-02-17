@@ -5,17 +5,19 @@
 
 namespace gl {
 
-class VertexBuffer : public resource {
+class vertex_buffer : public resource {
 
 public:
-  VertexBuffer(const void *data, unsigned int size);
+  vertex_buffer(const void *data, unsigned int size);
 
   auto bind() const -> void;
   auto unbind() const -> void;
+  auto size() const -> GLsizei;
 
 private:
   // Vertex buffer object.
   GLuint vbo;
+  GLsizei size_;
   auto data(const void *data, unsigned int size) -> void;
 };
 } // namespace gl

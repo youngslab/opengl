@@ -56,7 +56,7 @@ shader::shader(GLenum const &type, std::string const &src)
 shader::shader(GLenum const &type, stdfs::path const &file)
     : shader(type, f2s(file)) {}
 
-auto shader::attach(GLuint const &program) -> void {
+auto shader::attach(GLuint const &program) const -> void {
   glAttachShader(program, id_);
 }
 

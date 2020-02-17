@@ -26,10 +26,10 @@ auto gen_program() -> GLuint { return glCreateProgram(); }
 auto del_program(GLuint id) { glDeleteProgram(id); }
 
 program::program(shader const &vertex, shader const &fragment)
-    : id_(gen_program()), vertex_(vertex), fragment_(fragment),
+    : id_(gen_program()), 
       resource([=]() { del_program(id_); }) {
-  vertex_.attach(id_);
-  fragment_.attach(id_);
+  vertex.attach(id_);
+  fragment.attach(id_);
   if (!link_program(id_)) {
     throw std::runtime_error("failed to link a program");
   }
