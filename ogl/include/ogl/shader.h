@@ -7,7 +7,7 @@
 
 #include "resource.h"
 
-namespace gl {
+namespace ogl {
 
 namespace stdfs = std::filesystem;
 
@@ -23,4 +23,4 @@ private:
   GLuint id_;
 };
 
-} // namespace gl
+} // namespace ogl

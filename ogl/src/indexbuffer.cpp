@@ -1,8 +1,8 @@
-#include "indexbuffer.h"
+#include "ogl/indexbuffer.h"
 
 #include <iostream>
 
-namespace gl {
+namespace ogl {
 
 auto gen_index_buffer() -> GLuint {
   GLuint ibo;
@@ -37,4 +37,4 @@ auto index_buffer::data(GLuint const *data, GLsizei const &count) -> void {
 	       GL_STATIC_DRAW);
 }
 auto index_buffer::size() const -> GLsizei { return count_; }
-} // namespace gl
+} // namespace ogl

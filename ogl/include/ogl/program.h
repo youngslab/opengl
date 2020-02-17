@@ -2,7 +2,7 @@
 
 #include "shader.h"
 
-namespace gl {
+namespace ogl {
 class program : public resource {
 public:
   program(shader const &vertex, shader const &fragment);
@@ -13,4 +13,4 @@ public:
 private:
   GLuint id_;
 };
-} // namespace gl
+} // namespace ogl

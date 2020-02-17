@@ -1,6 +1,6 @@
-#include "program.h"
+#include "ogl/program.h"
 
-namespace gl {
+namespace ogl {
 auto is_linked(GLuint const &program) {
   GLint status;
   // Query the link status
@@ -26,8 +26,7 @@ auto gen_program() -> GLuint { return glCreateProgram(); }
 auto del_program(GLuint id) { glDeleteProgram(id); }
 
 program::program(shader const &vertex, shader const &fragment)
-    : id_(gen_program()), 
-      resource([=]() { del_program(id_); }) {
+    : id_(gen_program()), resource([=]() { del_program(id_); }) {
   vertex.attach(id_);
   fragment.attach(id_);
   if (!link_program(id_)) {
@@ -38,4 +37,4 @@ program::program(shader const &vertex, shader const &fragment)
 auto program::bind() const -> void { glUseProgram(id_); }
 auto program::unbind() const -> void { glUseProgram(0); }
 
-} // namespace gl
+} // namespace ogl

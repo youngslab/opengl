@@ -1,8 +1,8 @@
-#include "vertexattribute.h"
+#include "ogl/vertexattribute.h"
 
 #include <stdexcept>
 
-namespace gl {
+namespace ogl {
 
 auto get_type_sizeof(GLenum const &type) -> GLsizei {
   switch (type) {
@@ -14,8 +14,7 @@ auto get_type_sizeof(GLenum const &type) -> GLsizei {
   throw std::runtime_error("unkonwn type ");
 }
 
-vertex_attr::vertex_attr(GLenum type, GLuint count,
-				 GLboolean normalized)
+vertex_attr::vertex_attr(GLenum type, GLuint count, GLboolean normalized)
     : type_(type), count_(count), normalized_(normalized){};
 
 auto vertex_attr::size() const -> GLsizei {
@@ -27,4 +26,4 @@ auto vertex_attr::count() const -> GLuint { return this->count_; }
 auto vertex_attr::is_normalized() const -> GLboolean {
   return this->normalized_;
 }
-} // namespace gl
+} // namespace ogl

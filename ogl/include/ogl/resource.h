@@ -3,7 +3,7 @@
 #include <functional>
 #include <memory>
 
-namespace gl {
+namespace ogl {
 class resource {
 public:
   resource(std::function<void()> deleter);
@@ -11,4 +11,4 @@ public:
 private:
   std::shared_ptr<void> life;
 };
-} // namespace gl
+} // namespace ogl

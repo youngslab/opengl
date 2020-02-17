@@ -8,14 +8,14 @@
 #include "indexbuffer.h"
 #include "vertexattribute.h"
 
-namespace gl {
+namespace ogl {
 
 class vertex_array : public resource {
 public:
   vertex_array(vertex_buffer const &vbo, std::vector<vertex_attr> const &as);
   vertex_array(vertex_buffer const &vbo, std::vector<vertex_attr> const &as,
-	      index_buffer const &ibo);
-  auto draw() -> void;
+	       index_buffer const &ibo);
+  auto draw() const -> void;
 
 private:
   vertex_buffer const vbo;
@@ -23,9 +23,9 @@ private:
   GLuint const vao;
   GLuint const stride_;
 
-  auto bind() -> void;
-  auto unbind() -> void;
+  auto bind() const -> void;
+  auto unbind() const -> void;
   auto data(vertex_buffer const &vbo, std::vector<vertex_attr> const &attrs)
       -> void;
 };
-} // namespace gl
+} // namespace ogl

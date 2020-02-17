@@ -2,11 +2,11 @@
 
 #include <glad/glad.h>
 
-namespace gl {
+namespace ogl {
 
 class vertex_attr {
 public:
-vertex_attr(GLenum type, GLuint count, GLboolean normalized);
+  vertex_attr(GLenum type, GLuint count, GLboolean normalized);
 
   auto size() const -> GLsizei;
   auto type() const -> GLenum;
@@ -19,4 +19,4 @@ private:
   GLboolean const normalized_;
 };
 
-} // namespace gl
+} // namespace ogl

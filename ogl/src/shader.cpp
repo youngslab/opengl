@@ -1,10 +1,10 @@
-#include "shader.h"
+#include "ogl/shader.h"
 
 #include <optional>
 #include <fstream>
 #include <sstream>
 
-namespace gl {
+namespace ogl {
 
 auto is_compiled(GLuint const &shader) -> bool {
   GLint status;
@@ -60,4 +60,4 @@ auto shader::attach(GLuint const &program) const -> void {
   glAttachShader(program, id_);
 }
 
-} // namespace gl
+} // namespace ogl

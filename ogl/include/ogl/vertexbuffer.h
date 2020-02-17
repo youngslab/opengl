@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include "resource.h"
 
-namespace gl {
+namespace ogl {
 
 class vertex_buffer : public resource {
 
@@ -20,4 +20,4 @@ private:
   GLsizei size_;
   auto data(const void *data, unsigned int size) -> void;
 };
-} // namespace gl
+} // namespace ogl

@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include "resource.h"
 
-namespace gl {
+namespace ogl {
 
 class index_buffer : public resource {
 public:
@@ -19,4 +19,4 @@ private:
   GLenum const type_;
 };
 
-} // namespace gl
+} // namespace ogl

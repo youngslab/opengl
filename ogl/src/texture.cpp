@@ -1,9 +1,9 @@
-#include "texture.h"
+#include "ogl/texture.h"
 
 #include <SOIL2/SOIL2.h>
 #include <fmt/format.h>
 
-namespace gl {
+namespace ogl {
 
 /**
  * @brief Create data for a texture from a file.
@@ -75,4 +75,4 @@ auto texture::size() -> std::pair<uint32_t, uint32_t> {
   return {width, height};
 }
 
-} // namespace gl
+} // namespace ogl

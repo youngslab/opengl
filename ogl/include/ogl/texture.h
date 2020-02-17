@@ -7,7 +7,7 @@
 
 #include <glad/glad.h>
 
-namespace gl {
+namespace ogl {
 
 class texture {
 public:
@@ -42,4 +42,4 @@ private:
   std::shared_ptr<void> shared_life;
 };
 
-} // namespace gl
+} // namespace ogl

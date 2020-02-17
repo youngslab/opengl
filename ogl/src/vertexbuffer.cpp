@@ -1,7 +1,7 @@
-#include "vertexbuffer.h"
+#include "ogl/vertexbuffer.h"
 #include <iostream>
 
-namespace gl {
+namespace ogl {
 
 auto gen_buffer() -> GLuint {
   GLuint vbo;
@@ -30,4 +30,4 @@ auto vertex_buffer::bind() const -> void { glBindBuffer(GL_ARRAY_BUFFER, vbo); }
 auto vertex_buffer::unbind() const -> void { glBindBuffer(GL_ARRAY_BUFFER, 0); }
 
 auto vertex_buffer::size() const -> GLsizei { return size_; }
-} // namespace gl
+} // namespace ogl

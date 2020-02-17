@@ -3,11 +3,11 @@
 
 #include <iostream>
 
-#include "shader.h"
-#include "program.h"
-#include "vertexbuffer.h"
-#include "indexbuffer.h"
-#include "vertexarray.h"
+#include <ogl/shader.h>
+#include <ogl/program.h>
+#include <ogl/vertexbuffer.h>
+#include <ogl/indexbuffer.h>
+#include <ogl/vertexarray.h>
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -80,13 +80,13 @@ int main() {
       1, 2, 3  // second Triangle
   };
 
-  gl::shader frag{GL_FRAGMENT_SHADER, std::string{fragmentShaderSource}};
-  gl::shader vert{GL_VERTEX_SHADER, std::string{vertexShaderSource}};
-  gl::program shader{vert, frag};
-  gl::vertex_buffer vbo{vertices, sizeof(vertices)};
-  gl::vertex_attr pos{GL_FLOAT, 3, true};
-  gl::index_buffer ibo{indices, sizeof(indices)};
-  gl::vertex_array vao{vbo, {pos}, ibo};
+  ogl::shader frag{GL_FRAGMENT_SHADER, std::string{fragmentShaderSource}};
+  ogl::shader vert{GL_VERTEX_SHADER, std::string{vertexShaderSource}};
+  ogl::program shader{vert, frag};
+  ogl::vertex_buffer vbo{vertices, sizeof(vertices)};
+  ogl::vertex_attr pos{GL_FLOAT, 3, true};
+  ogl::index_buffer ibo{indices, sizeof(indices)};
+  ogl::vertex_array vao{vbo, {pos}, ibo};
 
   // uncomment this call to draw in wireframe polygons.
   // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
