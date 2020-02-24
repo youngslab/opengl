@@ -13,8 +13,8 @@ auto gen_vertex_array() -> GLuint {
 }
 
 auto del_vertex_array(GLuint const &id) -> void {
-
-  std::cout << "delete vao: " << id << "\n";
+  GLuint temp = id;
+  std::cout << "delete vao: " << temp << "\n";
   glDeleteVertexArrays(1, &id);
 }
 
@@ -25,27 +25,36 @@ auto calc_stride(std::vector<vertex_attr> const &attrs) -> GLsizei {
 			 });
 }
 
+vertex_array::vertex_array(GLuint const &id, vertex_buffer const &vbo,
+			   std::vector<vertex_attr> const &as)
+    : vao_(id), vbo_(vbo), stride_(calc_stride(as)),
+      resource([id]() { del_vertex_array(id); }) {
+  this->bind();
+  this->data(vbo_, as);
+  this->unbind();
+}
+
 vertex_array::vertex_array(vertex_buffer const &vbo,
 			   std::vector<vertex_attr> const &as)
-    : vao(gen_vertex_array()), vbo(vbo), stride_(calc_stride(as)),
-      resource([=]() { del_vertex_array(vao); }) {
+    : vertex_array(gen_vertex_array(), vbo, as) {}
+
+vertex_array::vertex_array(GLuint const &id, vertex_buffer const &vbo,
+			   std::vector<vertex_attr> const &as,
+			   index_buffer const &ibo)
+    : vao_(id), vbo_(vbo), stride_(calc_stride(as)), ibo_(ibo),
+      resource([id]() { del_vertex_array(id); }) {
   this->bind();
-  this->data(vbo, as);
+  this->data(vbo_, as);
+  ibo.bind();
   this->unbind();
 }
 
 vertex_array::vertex_array(vertex_buffer const &vbo,
 			   std::vector<vertex_attr> const &as,
 			   index_buffer const &ibo)
-    : vao(gen_vertex_array()), vbo(vbo), stride_(calc_stride(as)), ibo(ibo),
-      resource([=]() { del_vertex_array(vao); }) {
-  this->bind();
-  this->data(vbo, as);
-  ibo.bind();
-  this->unbind();
-}
+    : vertex_array(gen_vertex_array(), vbo, as, ibo) {}
 
-auto vertex_array::bind() const -> void { glBindVertexArray(vao); }
+auto vertex_array::bind() const -> void { glBindVertexArray(vao_); }
 
 auto vertex_array::unbind() const -> void { glBindVertexArray(0); }
 
@@ -65,12 +74,12 @@ auto vertex_array::data(vertex_buffer const &vbo,
 
 auto vertex_array::draw() const -> void {
   this->bind();
-  if (ibo) {
-    glDrawElements(GL_TRIANGLES, ibo->size() / sizeof(uint32_t),
+  if (ibo_) {
+    glDrawElements(GL_TRIANGLES, ibo_->size() / sizeof(uint32_t),
 		   GL_UNSIGNED_INT, 0);
   } else {
     // how much vetices in vbo?
-    glDrawArrays(GL_TRIANGLES, 0 /*first*/, vbo.size() / stride_);
+    glDrawArrays(GL_TRIANGLES, 0 /*first*/, vbo_.size() / stride_);
   }
   this->unbind();
 }

@@ -18,12 +18,13 @@ conan_cmake_run(CONANFILE conanfile.txt
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_BINARY_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 add_subdirectory(3rd_party)
 add_subdirectory(ogl)
 add_subdirectory(example)
 add_subdirectory(ren)
-
-
-
 
 

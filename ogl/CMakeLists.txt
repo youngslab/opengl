@@ -13,7 +13,8 @@ add_library(ogl STATIC
 	src/vertexattribute.cpp
 	src/vertexbuffer.cpp
 	src/vertexarray.cpp
-	src/program.cpp)
+	src/program.cpp
+	src/framebuffer.cpp)
 
 target_link_libraries(ogl PUBLIC glad glfw Assimp::Assimp glm::glm
 		soil2::soil2

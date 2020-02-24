@@ -7,6 +7,7 @@ namespace ogl {
 class resource {
 public:
   resource(std::function<void()> deleter);
+  virtual ~resource() {}
 
 private:
   std::shared_ptr<void> life;
