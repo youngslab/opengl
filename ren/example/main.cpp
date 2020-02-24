@@ -68,32 +68,29 @@ int main() {
 
   // TODO: make shader more concrete.
 
-  // set up vertex data (and buffer(s)) and configure vertex attributes
-  // ------------------------------------------------------------------
-  float vertices[] = {
-      0.5f,  0.5f,  0.0f, // top right
-      0.5f,  -0.5f, 0.0f, // bottom right
-      -0.5f, -0.5f, 0.0f, // bottom left
-      -0.5f, 0.5f,  0.0f  // top left
-  };
-  unsigned int indices[] = {
-      // note that we start from 0!
-      0, 1, 3, // first Triangle
-      1, 2, 3  // second Triangle
-  };
+  // material
+  // ogl::shader frag{GL_FRAGMENT_SHADER, std::string{fragmentShaderSource}};
+  // ogl::shader vert{GL_VERTEX_SHADER, std::string{vertexShaderSource}};
+  // ogl::program shader{vert, frag};
+  // auto mat = std::make_shared<ren::material>(shader);
 
-  ogl::shader frag{GL_FRAGMENT_SHADER, std::string{fragmentShaderSource}};
-  ogl::shader vert{GL_VERTEX_SHADER, std::string{vertexShaderSource}};
-  ogl::program shader{vert, frag};
-  ogl::vertex_buffer vbo{vertices, sizeof(vertices)};
-  ogl::vertex_attr pos{GL_FLOAT, 3, true};
-  ogl::index_buffer ibo{indices, sizeof(indices)};
-  ogl::vertex_array vao{vbo, {pos}, ibo};
+  auto mat = std::make_shared<ren::materials::solid_color>();
 
-  auto mesh = std::make_shared<ren::mesh>(vao);
-  auto mat = std::make_shared<ren::material>(shader);
+  // geometry
+  /*
+ogl::vertex_buffer vbo{vertices, sizeof(vertices)};
+ogl::vertex_attr pos{GL_FLOAT, 3, true};
+ogl::index_buffer ibo{indices, sizeof(indices)};
+ogl::vertex_array vao{vbo, {pos}, ibo};
+auto mesh = std::make_shared<ren::mesh>(vao);
+  */
+  auto mesh = std::make_shared<ren::meshes::rectangle>();
+
+  // entity
   auto rect = std::make_shared<ren::entity>(
       std::initializer_list<ren::component>{mat, mesh});
+
+  // entities
   std::vector<std::shared_ptr<ren::entity>> entities{rect};
 
   // uncomment this call to draw in wireframe polygons.

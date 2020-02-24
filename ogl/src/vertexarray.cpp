@@ -25,6 +25,7 @@ auto calc_stride(std::vector<vertex_attr> const &attrs) -> GLsizei {
 			 });
 }
 
+
 vertex_array::vertex_array(vertex_buffer const &vbo,
 			   std::vector<vertex_attr> const &as)
     : vao(gen_vertex_array()), vbo(vbo), stride_(calc_stride(as)),
