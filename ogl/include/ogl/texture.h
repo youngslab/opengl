@@ -7,9 +7,11 @@
 
 #include <glad/glad.h>
 
+#include "resource.h"
+
 namespace ogl {
 
-class texture {
+class texture : public resource {
 public:
   /**
    * @brief Bind the current texture
@@ -18,6 +20,7 @@ public:
    */
   auto bind() -> void;
 
+  auto unbind() -> void;
   /**
    * @brief Get a size of a texture.
    *
@@ -25,21 +28,22 @@ public:
    */
   auto size() -> std::pair<uint32_t, uint32_t>;
 
-  texture(std::string const &filepath);
-  texture() = delete;
+  texture(GLsizei width, GLsizei height, GLenum format, GLenum type,
+	  const void *data);
 
+  texture(GLuint id, GLsizei width, GLsizei height, GLenum format, GLenum type,
+	  const void *data);
+
+  /*
+texture(GLenum target, GLint level, GLint internalformat, GLsizei width,
+    GLsizei height, GLint border, GLenum format, GLenum type,
+    const void *data);
+	  */
 private:
-  texture(std::nullopt_t const &f);
-  texture(std::tuple<GLuint, GLsizei, GLsizei, GLenum> const &data);
-  texture(GLuint const &id, GLsizei const &w, GLsizei const &h,
-	  GLenum const &c);
-
-  uint32_t const width;
-  uint32_t const height;
-  uint32_t const id;
-  uint32_t const channel;
-  // extend object lifetime by sharing id;
-  std::shared_ptr<void> shared_life;
+  GLuint const id_;
+  GLsizei const width_;
+  GLsizei const height_;
+  GLenum const format_;
 };
 
 } // namespace ogl

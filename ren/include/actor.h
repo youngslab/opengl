@@ -121,6 +121,8 @@ private:
 auto render(std::vector<std::shared_ptr<entity>> const &es) {
   for (auto &e : es) {
     for (auto &c : e->get_components()) {
+
+      // TODO: make sured that material is prior to mesh
       std::visit(overloaded{[=](std::shared_ptr<material> m) { m->active(); },
 			    [](std::shared_ptr<mesh> m) { m->draw(); }},
 		 c);

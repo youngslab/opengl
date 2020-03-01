@@ -1,8 +1,6 @@
 
 
-find_package(Assimp REQUIRED)
 find_package(glm REQUIRED)
-find_package(soil2 REQUIRED)
 find_package(fmt REQUIRED)
 
 add_library(ogl STATIC
@@ -16,8 +14,7 @@ add_library(ogl STATIC
 	src/program.cpp
 	src/framebuffer.cpp)
 
-target_link_libraries(ogl PUBLIC glad glfw Assimp::Assimp glm::glm
-		soil2::soil2
+target_link_libraries(ogl PUBLIC glad glm::glm
 			fmt::fmt)
 
 target_include_directories(ogl PUBLIC ./include)
