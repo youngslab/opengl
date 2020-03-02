@@ -14,3 +14,4 @@ target_include_directories(ogl-loader PUBLIC ./include)
 
 target_compile_features(ogl-loader PUBLIC cxx_std_17)
 
+add_subdirectory(example)

@@ -3,6 +3,7 @@
 #include <optional>
 #include <fstream>
 #include <sstream>
+#include <fmt/format.h>
 
 namespace ogl {
 
@@ -12,10 +13,10 @@ auto is_compiled(GLuint const &shader) -> bool {
   glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 
   if (status != GL_TRUE) {
-    // char buffer[512];
-    // memset(buffer, 0, 512);
-    // glGetShaderInfoLog(shader, 511, nullptr, buffer);
-    // SDL_Log("GLSL Compile Failed:\n%s", buffer);
+    char buffer[512];
+    memset(buffer, 0, 512);
+    glGetShaderInfoLog(shader, 511, nullptr, buffer);
+    fmt::print("GLSL Compile Failed:\n%s", buffer);
     return false;
   }
 

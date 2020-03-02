@@ -1,15 +1,17 @@
 #include "ogl/program.h"
 
+#include <fmt/format.h>
+
 namespace ogl {
 auto is_linked(GLuint const &program) {
   GLint status;
   // Query the link status
   glGetProgramiv(program, GL_LINK_STATUS, &status);
   if (status != GL_TRUE) {
-    // char buffer[512];
-    // memset(buffer, 0, 512);
-    // glGetProgramInfoLog(program, 511, nullptr, buffer);
-    // SDL_Log("GLSL Link Status:\n%s", buffer);
+    char buffer[512];
+    memset(buffer, 0, 512);
+    glGetProgramInfoLog(program, 511, nullptr, buffer);
+    fmt::print("GLSL Link Status:\n%s", buffer);
     return false;
   }
 
