@@ -11,7 +11,7 @@ auto is_linked(GLuint const &program) {
     char buffer[512];
     memset(buffer, 0, 512);
     glGetProgramInfoLog(program, 511, nullptr, buffer);
-    fmt::print("GLSL Link Status:\n%s", buffer);
+    fmt::print("GLSL Link Status:\n{0}", buffer);
     return false;
   }
 

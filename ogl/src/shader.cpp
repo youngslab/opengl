@@ -1,8 +1,5 @@
 #include "ogl/shader.h"
-
 #include <optional>
-#include <fstream>
-#include <sstream>
 #include <fmt/format.h>
 
 namespace ogl {
@@ -23,18 +20,6 @@ auto is_compiled(GLuint const &shader) -> bool {
   return true;
 }
 
-auto f2s(stdfs::path const &p) -> std::string {
-  std::ifstream fs(p.string());
-  if (!fs.is_open()) {
-    return "";
-  }
-
-  // Read all the text into a string
-  std::stringstream ss;
-  ss << fs.rdbuf();
-  return ss.str();
-}
-
 auto compile_shader(GLuint id, std::string const &src) -> bool {
   auto interm = src.data();
   // Set the source characters and try to compile
@@ -47,15 +32,15 @@ auto gen_shader(GLenum const &type) -> GLuint { return glCreateShader(type); }
 
 auto del_shader(GLuint id) -> void { glDeleteShader(id); }
 
-shader::shader(GLenum const &type, std::string const &src)
-    : id_(gen_shader(type)), resource([=]() { del_shader(id_); }) {
+shader::shader(GLuint id, GLenum type, std::string const &src)
+    : id_(id), type_(type), resource([id]() { del_shader(id); }) {
   if (!compile_shader(id_, src)) {
     throw std::runtime_error("failed to compile a shader source.");
   }
 }
 
-shader::shader(GLenum const &type, stdfs::path const &file)
-    : shader(type, f2s(file)) {}
+shader::shader(GLenum type, std::string const &src)
+    : shader(gen_shader(type), type, src) {}
 
 auto shader::attach(GLuint const &program) const -> void {
   glAttachShader(program, id_);

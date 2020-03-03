@@ -12,6 +12,8 @@
 
 #include <ogl/loader.h>
 
+#include <fmt/format.h>
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
@@ -52,6 +54,9 @@ int main() {
     return -1;
   }
 
+  // During init, enable debug output
+  // glEnable(GL_DEBUG_OUTPUT);
+  // glDebugMessageCallback(MessageCallback, 0);
   // TODO: make shader more concrete.
 
   // set up vertex data (and buffer(s)) and configure vertex attributes
@@ -70,20 +75,29 @@ int main() {
       1, 2, 3  // second Triangle
   };
 
-  ogl::shader frag{GL_FRAGMENT_SHADER,
-		   std::filesystem::path("./simple_texture.vs")};
-  ogl::shader vert{GL_VERTEX_SHADER,
-		   std::filesystem::path("./simple_texture.fs")};
+  ogl::shader frag{GL_FRAGMENT_SHADER, ogl::load_shader("./simple_texture.fs")};
+  ogl::shader vert{GL_VERTEX_SHADER, ogl::load_shader("./simple_texture.vs")};
   ogl::program shader{vert, frag};
+  // TODO: improve how to set multiple uniforms without binding explicitly.
+  shader.bind();
+  shader.set("texture1", 0);
+  shader.set("texture2", 1);
+  shader.unbind();
+
   ogl::vertex_buffer vbo{vertices, sizeof(vertices)};
   ogl::vertex_attr pos{GL_FLOAT, 3, false};
   ogl::vertex_attr col{GL_FLOAT, 3, false};
   ogl::vertex_attr tex{GL_FLOAT, 2, false};
+
   ogl::index_buffer ibo{indices, sizeof(indices)};
   ogl::vertex_array vao{vbo, {pos, col, tex}, ibo};
 
+  // TODO: improve how to load the texture.
   auto [w, h, f, t, d] = ogl::load_texture("./container.jpg");
   ogl::texture image(w, h, f, t, d.get());
+
+  std::tie(w, h, f, t, d) = ogl::load_texture("./awesomeface.png");
+  ogl::texture image2(w, h, f, t, d.get());
 
   // uncomment this call to draw in wireframe polygons.
   // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -102,7 +116,10 @@ int main() {
 
     // draw our first triangle
     shader.bind();
+    glActiveTexture(GL_TEXTURE0);
     image.bind();
+    glActiveTexture(GL_TEXTURE0 + 1);
+    image2.bind();
     vao.draw();
 
     // glBindVertexArray(0); // no need to unbind it every time

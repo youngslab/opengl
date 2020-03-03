@@ -2,25 +2,23 @@
 #include <memory>
 #include <functional>
 #include <string>
-#include <filesystem>
 #include <glad/glad.h>
 
 #include "resource.h"
 
 namespace ogl {
 
-namespace stdfs = std::filesystem;
-
 class shader : public resource {
 public:
-  explicit shader(GLenum const &type, std::string const &src);
-  explicit shader(GLenum const &type, stdfs::path const &file);
+  explicit shader(GLenum type, std::string const &src);
+  explicit shader(GLuint id, GLenum type, std::string const &src);
 
   auto attach(GLuint const &program) const -> void;
 
 private:
   // shader object
   GLuint id_;
+  GLenum type_;
 };
 
 } // namespace ogl

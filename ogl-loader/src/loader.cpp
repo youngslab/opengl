@@ -1,6 +1,9 @@
 #include "ogl/loader.h"
 #include <SOIL2/SOIL2.h>
 #include <fmt/format.h>
+#include <fstream>
+#include <sstream>
+#include <filesystem>
 
 namespace ogl {
 auto load_texture(std::string const &file)
@@ -11,7 +14,7 @@ auto load_texture(std::string const &file)
       SOIL_load_image(file.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
 
   if (!image) {
-    fmt::print("SOIL failed to load image %s: %s", file.c_str(),
+    fmt::print("SOIL failed to load image {}: {}", file.c_str(),
 	       SOIL_last_result());
     return {};
   }
@@ -22,6 +25,21 @@ auto load_texture(std::string const &file)
   // setup forrmat
   auto format = (channels == 4) ? GL_RGBA : GL_RGB;
 
-  return {width, height, format, GL_UNSIGNED_INT, data};
+  return {width, height, format, GL_UNSIGNED_BYTE, data};
+}
+
+auto load_shader(std::string const &filepath) -> std::string {
+  namespace fs = std::filesystem;
+  fs::path p{filepath};
+
+  std::ifstream ifs(p.string());
+  if (!ifs.is_open()) {
+    return "";
+  }
+
+  // Read all the text into a string
+  std::stringstream ss;
+  ss << ifs.rdbuf();
+  return ss.str();
 }
 } // namespace ogl
