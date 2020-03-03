@@ -12,6 +12,8 @@
 
 #include <ogl/loader.h>
 
+#include <fmt/format.h>
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
@@ -52,6 +54,9 @@ int main() {
     return -1;
   }
 
+  // During init, enable debug output
+  // glEnable(GL_DEBUG_OUTPUT);
+  // glDebugMessageCallback(MessageCallback, 0);
   // TODO: make shader more concrete.
 
   // set up vertex data (and buffer(s)) and configure vertex attributes
@@ -70,15 +75,14 @@ int main() {
       1, 2, 3  // second Triangle
   };
 
-  ogl::shader frag{GL_FRAGMENT_SHADER,
-		   std::filesystem::path("./simple_texture.vs")};
-  ogl::shader vert{GL_VERTEX_SHADER,
-		   std::filesystem::path("./simple_texture.fs")};
+  ogl::shader frag{GL_FRAGMENT_SHADER, ogl::load_shader("./simple_texture.fs")};
+  ogl::shader vert{GL_VERTEX_SHADER, ogl::load_shader("./simple_texture.vs")};
   ogl::program shader{vert, frag};
   ogl::vertex_buffer vbo{vertices, sizeof(vertices)};
   ogl::vertex_attr pos{GL_FLOAT, 3, false};
   ogl::vertex_attr col{GL_FLOAT, 3, false};
   ogl::vertex_attr tex{GL_FLOAT, 2, false};
+
   ogl::index_buffer ibo{indices, sizeof(indices)};
   ogl::vertex_array vao{vbo, {pos, col, tex}, ibo};
 

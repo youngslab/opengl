@@ -17,4 +17,6 @@ namespace ogl {
  */
 auto load_texture(std::string const &file)
     -> std::tuple<GLsizei, GLsizei, GLenum, GLenum, std::shared_ptr<void>>;
+
+auto load_shader(std::string const &filepath) -> std::string;
 } // namespace ogl

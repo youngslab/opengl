@@ -12,9 +12,8 @@ auto gen_vertex_array() -> GLuint {
   return vao;
 }
 
-auto del_vertex_array(GLuint const &id) -> void {
-  GLuint temp = id;
-  std::cout << "delete vao: " << temp << "\n";
+auto del_vertex_array(GLuint id) -> void {
+  std::cout << "delete vao: " << id << "\n";
   glDeleteVertexArrays(1, &id);
 }
 
