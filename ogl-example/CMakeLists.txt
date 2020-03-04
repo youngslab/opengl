@@ -1,4 +1,3 @@
 
 
-add_subdirectory(ogl-example-texture)
-add_subdirectory(ogl-example-transform)
+add_subdirectory(learnopengl)

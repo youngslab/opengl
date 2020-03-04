@@ -16,7 +16,15 @@
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
+void _post_call_callback_default(const char *name, void *funcptr, int len_args,
+				 ...) {
+  GLenum error_code;
+  error_code = glad_glGetError();
 
+  if (error_code != GL_NO_ERROR) {
+    fprintf(stderr, "ERROR %d in %s\n", error_code, name);
+  }
+}
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -54,6 +62,9 @@ int main() {
     return -1;
   }
 
+#ifdef GLAD_DEBUG
+  glad_set_post_callback(_post_call_callback_default);
+#endif
   // During init, enable debug output
   // glEnable(GL_DEBUG_OUTPUT);
   // glDebugMessageCallback(MessageCallback, 0);
@@ -61,22 +72,56 @@ int main() {
 
   // set up vertex data (and buffer(s)) and configure vertex attributes
   // ------------------------------------------------------------------
+  // clang-format off
   float vertices[] = {
-      // positions          // colors           // texture coords
-      0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
-      0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
-      -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
-      -0.5f, 0.5f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f  // top left
-  };
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-  unsigned int indices[] = {
-      // note that we start from 0!
-      0, 1, 3, // first Triangle
-      1, 2, 3  // second Triangle
-  };
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 
-  ogl::shader frag{GL_FRAGMENT_SHADER, ogl::load_shader("res/shader/simple_texture.fs")};
-  ogl::shader vert{GL_VERTEX_SHADER, ogl::load_shader("res/shader/simple_texture.vs")};
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    };
+  // clang-format on
+
+  ogl::shader frag{GL_FRAGMENT_SHADER,
+		   ogl::load_shader("res/shader/coordinate.fs")};
+  ogl::shader vert{GL_VERTEX_SHADER,
+		   ogl::load_shader("res/shader/coordinate.vs")};
   ogl::program shader{vert, frag};
   // TODO: improve how to set multiple uniforms without binding explicitly.
   shader.bind();
@@ -86,11 +131,9 @@ int main() {
 
   ogl::vertex_buffer vbo{vertices, sizeof(vertices)};
   ogl::vertex_attr pos{GL_FLOAT, 3, false};
-  ogl::vertex_attr col{GL_FLOAT, 3, false};
   ogl::vertex_attr tex{GL_FLOAT, 2, false};
 
-  ogl::index_buffer ibo{indices, sizeof(indices)};
-  ogl::vertex_array vao{vbo, {pos, col, tex}, ibo};
+  ogl::vertex_array vao{vbo, {pos, tex}};
 
   // TODO: improve how to load the texture.
   auto [w, h, f, t, d] = ogl::load_texture("res/image/container.jpg");
@@ -102,6 +145,7 @@ int main() {
   // uncomment this call to draw in wireframe polygons.
   // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+  glEnable(GL_DEPTH_TEST);
   // render loop
   // -----------
   while (!glfwWindowShouldClose(window)) {
@@ -112,10 +156,29 @@ int main() {
     // render
     // ------
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // model
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f),
+			glm::vec3(0.5f, 1.0f, 0.0f));
+
+    // model =
+    // glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+    glm::mat4 view = glm::mat4(1.0f);
+    // note that we're translating the scene in the reverse direction of where
+    // we want to move
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+    glm::mat4 projection;
+    projection =
+	glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
     // draw our first triangle
     shader.bind();
+    shader.set("model", model);
+    shader.set("view", view);
+    shader.set("projection", projection);
     glActiveTexture(GL_TEXTURE0);
     image.bind();
     glActiveTexture(GL_TEXTURE0 + 1);
