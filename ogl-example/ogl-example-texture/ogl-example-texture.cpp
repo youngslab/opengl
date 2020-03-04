@@ -75,8 +75,8 @@ int main() {
       1, 2, 3  // second Triangle
   };
 
-  ogl::shader frag{GL_FRAGMENT_SHADER, ogl::load_shader("./simple_texture.fs")};
-  ogl::shader vert{GL_VERTEX_SHADER, ogl::load_shader("./simple_texture.vs")};
+  ogl::shader frag{GL_FRAGMENT_SHADER, ogl::load_shader("res/shader/simple_texture.fs")};
+  ogl::shader vert{GL_VERTEX_SHADER, ogl::load_shader("res/shader/simple_texture.vs")};
   ogl::program shader{vert, frag};
   // TODO: improve how to set multiple uniforms without binding explicitly.
   shader.bind();
@@ -93,10 +93,10 @@ int main() {
   ogl::vertex_array vao{vbo, {pos, col, tex}, ibo};
 
   // TODO: improve how to load the texture.
-  auto [w, h, f, t, d] = ogl::load_texture("./container.jpg");
+  auto [w, h, f, t, d] = ogl::load_texture("res/image/container.jpg");
   ogl::texture image(w, h, f, t, d.get());
 
-  std::tie(w, h, f, t, d) = ogl::load_texture("./awesomeface.png");
+  std::tie(w, h, f, t, d) = ogl::load_texture("res/image/awesomeface.png");
   ogl::texture image2(w, h, f, t, d.get());
 
   // uncomment this call to draw in wireframe polygons.
