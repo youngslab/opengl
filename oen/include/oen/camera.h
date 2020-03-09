@@ -29,8 +29,38 @@ public:
 	proj_(calc_proj(fov)) {}
   virtual ~camera() {}
 
-  auto get_view() -> glm::mat4 { return view_; }
-  auto get_proj() -> glm::mat4 { return proj_; }
+  virtual auto get_view() -> glm::mat4 {
+    if (dirty_v_) {
+      view_ = calc_view(pos_, front_, up_);
+      dirty_v_ = false;
+    }
+    return view_;
+  }
+  virtual auto get_proj() -> glm::mat4 {
+    if (dirty_p_) {
+      proj_ = calc_proj(fov_);
+      dirty_p_ = false;
+    }
+    return proj_;
+  }
+
+  auto set_pos(glm::vec3 pos) {
+    pos_ = pos;
+    dirty_v_ = true;
+  }
+  auto set_front(glm::vec3 front) {
+    front_ = front;
+    dirty_v_ = true;
+  }
+  auto set_up(glm::vec3 up) {
+    up_ = up;
+    dirty_v_ = true;
+  }
+
+  auto set_fov(GLfloat fov) {
+    fov_ = fov;
+    dirty_p_ = true;
+  }
 
 private:
   glm::vec3 pos_;

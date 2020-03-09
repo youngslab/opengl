@@ -48,7 +48,7 @@ int main() {
     return -1;
   }
 
-  auto camera = std::make_shared<oen::camera>();
+  auto camera = std::make_shared<oen::spline_camera>();
 
   auto mat =
       std::make_shared<oen::materials::textured>("res/image/container.jpg");

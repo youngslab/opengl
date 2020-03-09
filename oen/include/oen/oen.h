@@ -6,3 +6,4 @@
 #include "oen/render.h"
 #include "oen/entity.h"
 #include "oen/camera.h"
+#include "oen/spline_camera.h"
