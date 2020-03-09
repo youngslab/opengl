@@ -47,7 +47,8 @@ int main() {
     return -1;
   }
 
-  auto mat = std::make_shared<oen::materials::solid_color>();
+  glm::vec4 red = {1.0, 0, 0, 1};
+  auto mat = std::make_shared<oen::materials::solid_color>(red);
   auto mesh = std::make_shared<oen::meshes::cube>();
 
   // entity

@@ -13,7 +13,7 @@ auto is_compiled(GLuint const &shader) -> bool {
     char buffer[512];
     memset(buffer, 0, 512);
     glGetShaderInfoLog(shader, 511, nullptr, buffer);
-    fmt::print("GLSL Compile Failed:\n%s", buffer);
+    fmt::print("GLSL Compile Failed:\n {}", buffer);
     return false;
   }
 
@@ -35,7 +35,7 @@ auto del_shader(GLuint id) -> void { glDeleteShader(id); }
 shader::shader(GLuint id, GLenum type, std::string const &src)
     : id_(id), type_(type), resource([id]() { del_shader(id); }) {
   if (!compile_shader(id_, src)) {
-    throw std::runtime_error("failed to compile a shader source.");
+    throw std::runtime_error(fmt::format("failed to compile a shader source.\n{}\n ", src));
   }
 }
 
