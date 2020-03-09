@@ -29,6 +29,7 @@ public:
 	proj_(calc_proj(fov)) {}
   virtual ~camera() {}
 
+  auto get_fov() -> GLfloat { return fov_; }
   virtual auto get_view() -> glm::mat4 {
     if (dirty_v_) {
       view_ = calc_view(pos_, front_, up_);
@@ -58,8 +59,15 @@ public:
   }
 
   auto set_fov(GLfloat fov) {
-    fov_ = fov;
-    dirty_p_ = true;
+    if (fov <= 1.0f)
+      fov = 1.0f;
+    if (fov >= 45.0f)
+      fov = 45.0f;
+
+    if (fov_ != fov) {
+      fov_ = fov;
+      dirty_p_ = true;
+    }
   }
 
 private:

@@ -10,10 +10,17 @@
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
+void mouse_callback(GLFWwindow *window, double xpos, double ypos);
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
+
+float lastX = 800.0f / 2.0;
+float lastY = 600.0 / 2.0;
 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+
+auto camera = std::make_shared<oen::spline_camera>();
 
 int main() {
   // glfw: initialize and configure
@@ -41,14 +48,17 @@ int main() {
   glfwMakeContextCurrent(window);
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+  // input
+  glfwSetCursorPosCallback(window, mouse_callback);
+  glfwSetScrollCallback(window, scroll_callback);
+  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
   // glad: load all OpenGL function pointers
   // ---------------------------------------
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
     std::cout << "Failed to initialize GLAD" << std::endl;
     return -1;
   }
-
-  auto camera = std::make_shared<oen::spline_camera>();
 
   auto mat =
       std::make_shared<oen::materials::textured>("res/image/container.jpg");
@@ -112,4 +122,32 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
   // and height will be significantly larger than specified on retina
   // displays.
   glViewport(0, 0, width, height);
+}
+
+void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
+  static bool firstMouse = true;
+  if (firstMouse) {
+    lastX = xpos;
+    lastY = ypos;
+    firstMouse = false;
+  }
+
+  float xoffset = xpos - lastX;
+  float yoffset =
+      lastY - ypos; // reversed since y-coordinates go from bottom to top
+  lastX = xpos;
+  lastY = ypos;
+
+  float sensitivity = 0.1f; // change this value to your liking
+  xoffset *= sensitivity;
+  yoffset *= sensitivity;
+
+  camera->set_yaw(camera->get_yaw() + xoffset);
+  camera->set_pitch(camera->get_pitch() + yoffset);
+}
+
+// glfw: whenever the mouse scroll wheel scrolls, this callback is called
+// ----------------------------------------------------------------------
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
+  camera->set_fov(camera->get_fov() - yoffset);
 }

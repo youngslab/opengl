@@ -23,8 +23,14 @@ public:
     dirty_ = true;
   }
   auto set_pitch(GLfloat pitch) {
-    pitch_ = pitch;
-    dirty_ = true;
+    if (pitch > 89.0f)
+      pitch = 89.0f;
+    if (pitch < -89.0f)
+      pitch = -89.0f;
+    if (pitch != pitch_) {
+      pitch_ = pitch;
+      dirty_ = true;
+    }
   }
 
   auto get_view() -> glm::mat4 override {
