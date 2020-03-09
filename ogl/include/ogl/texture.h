@@ -18,9 +18,9 @@ public:
    *
    * @return None.
    */
-  auto bind() -> void;
+  auto bind() const -> void;
 
-  auto unbind() -> void;
+  auto unbind() const -> void;
   /**
    * @brief Get a size of a texture.
    *

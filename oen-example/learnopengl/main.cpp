@@ -5,6 +5,7 @@
 
 #include <oen/oen.h>
 #include <oen/materials/solid_color.h>
+#include <oen/materials/textured.h>
 #include <oen/meshes/cube.h>
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -49,8 +50,8 @@ int main() {
 
   auto camera = std::make_shared<oen::camera>();
 
-  glm::vec4 red = {1.0, 0, 0, 1};
-  auto mat = std::make_shared<oen::materials::solid_color>(red);
+  auto mat =
+      std::make_shared<oen::materials::textured>("res/image/container.jpg");
   auto mesh = std::make_shared<oen::meshes::cube>();
   auto tran =
       std::make_shared<oen::translation>(-55.0f, glm::vec3(1.0f, 0.0f, 0.0f));
@@ -64,6 +65,8 @@ int main() {
   // uncomment this call to draw in wireframe
   // polygons.glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
 
+  glEnable(GL_DEPTH_TEST);
+
   // render loop-- ---------
   while (!glfwWindowShouldClose(window)) {
     // input
@@ -73,7 +76,7 @@ int main() {
     // render
     // ------
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // draw our first triangle
     render(camera, entities);

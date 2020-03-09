@@ -34,9 +34,9 @@ texture::texture(GLuint id, GLsizei width, GLsizei height, GLenum format,
   this->unbind();
 }
 
-auto texture::bind() -> void { glBindTexture(GL_TEXTURE_2D, id_); }
+auto texture::bind() const -> void { glBindTexture(GL_TEXTURE_2D, id_); }
 
-auto texture::unbind() -> void { glBindTexture(GL_TEXTURE_2D, 0); }
+auto texture::unbind() const -> void { glBindTexture(GL_TEXTURE_2D, 0); }
 
 auto texture::size() -> std::pair<uint32_t, uint32_t> {
   return {width_, height_};
