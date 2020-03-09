@@ -1,17 +1,15 @@
 
 
-add_library(ren INTERFACE)
+add_library(oen INTERFACE)
 
-target_link_libraries(ren INTERFACE ogl) 
+target_link_libraries(oen INTERFACE ogl) 
 
-target_include_directories(ren INTERFACE ./include)
+target_include_directories(oen INTERFACE ./include)
 
-target_compile_features(ren INTERFACE cxx_std_17)
+target_compile_features(oen INTERFACE cxx_std_17)
 
-
-install(TARGETS ren
+install(TARGETS oen
   RUNTIME DESTINATION bin
   RESOURCE DESTINATION bin/res
 )
 
-add_subdirectory(example)

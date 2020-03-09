@@ -3,13 +3,9 @@
 
 #include <iostream>
 
-#include <ogl/shader.h>
-#include <ogl/program.h>
-#include <ogl/vertexbuffer.h>
-#include <ogl/indexbuffer.h>
-#include <ogl/vertexarray.h>
-
-#include <actor.h>
+#include <oen/oen.h>
+#include <oen/materials/solid_color.h>
+#include <oen/meshes/cube.h>
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -51,14 +47,14 @@ int main() {
     return -1;
   }
 
-  auto mat = std::make_shared<ren::materials::solid_color>();
-  auto mesh = std::make_shared<ren::meshes::rectangle>();
+  auto mat = std::make_shared<oen::materials::solid_color>();
+  auto mesh = std::make_shared<oen::meshes::cube>();
 
   // entity
-  auto rect = std::make_shared<ren::entity>(mat, mesh);
+  auto cube = std::make_shared<oen::entity>(mat, mesh);
 
   // entities
-  std::vector<std::shared_ptr<ren::entity>> entities{rect};
+  std::vector<std::shared_ptr<oen::entity>> entities{cube};
 
   // uncomment this call to draw in wireframe
   // polygons.glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
