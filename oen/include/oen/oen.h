@@ -5,3 +5,4 @@
 #include "oen/component.h"
 #include "oen/render.h"
 #include "oen/entity.h"
+#include "oen/camera.h"

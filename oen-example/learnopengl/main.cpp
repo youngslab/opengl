@@ -47,12 +47,16 @@ int main() {
     return -1;
   }
 
+  auto camera = std::make_shared<oen::camera>();
+
   glm::vec4 red = {1.0, 0, 0, 1};
   auto mat = std::make_shared<oen::materials::solid_color>(red);
   auto mesh = std::make_shared<oen::meshes::cube>();
+  auto tran =
+      std::make_shared<oen::translation>(-55.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 
   // entity
-  auto cube = std::make_shared<oen::entity>(mat, mesh);
+  auto cube = std::make_shared<oen::entity>(mat, mesh, tran);
 
   // entities
   std::vector<std::shared_ptr<oen::entity>> entities{cube};
@@ -72,7 +76,7 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     // draw our first triangle
-    render(entities);
+    render(camera, entities);
     // glBindVertexArray(0); // no need to unbind it every time
 
     // glfw: swap buffers and poll IO events (keys pressed/released, mouse
