@@ -1,4 +1,6 @@
 
+if(${EXMPALE})
+  add_subdirectory(glfw)
+endif()
 
-add_subdirectory(glfw)
 add_subdirectory(glad)

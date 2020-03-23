@@ -22,12 +22,16 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
+
+
 add_subdirectory(3rd_party)
 add_subdirectory(ogl)
 add_subdirectory(ogl-loader)
-add_subdirectory(ogl-example)
 add_subdirectory(oen)
 # add_subdirectory(oen-loader)
-add_subdirectory(oen-example)
+if(${EXAMPLE})
+  add_subdirectory(ogl-example)
+  add_subdirectory(oen-example)
+endif()
 
 
